@@ -86,8 +86,7 @@ public class Movie {
 
                 transformCommentList(response);
 
-                if(!commentInfoList.isEmpty())
-                {
+                if(!commentInfoList.isEmpty()) {
                     Intent i=new Intent(MovieApp.ACTION_LoadCommentInfoComplete);
                     Comment comment=new Comment();
                     comment.setNum(commentInfoList.size());
