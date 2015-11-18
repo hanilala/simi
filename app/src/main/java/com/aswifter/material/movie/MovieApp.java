@@ -15,5 +15,5 @@ public class MovieApp {
     public static String Url_Comments="http://movie.douban.com/subject/11620560/comments";
     public static String Url_Summary="http://movie.douban.com/subject/11620560/comments";
 
-    public static String Url_Reviews="http://movie.douban.com/subject/11620560/reviews";
+
 }
