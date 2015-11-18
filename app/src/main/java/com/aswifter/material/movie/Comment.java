@@ -10,6 +10,7 @@ public class Comment implements Serializable{
 
 
     //此类用于
+    //再次添加
     private int num;
     private LinkedList<CommentInfo> commentInfoList;
 
