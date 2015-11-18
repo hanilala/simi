@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="15dp"
+    android:paddingLeft="8dp"
+    android:paddingBottom="15dp"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivReviewImg"
+                android:layout_width="30dp"
+                android:src="@drawable/book1"
+                android:layout_alignParentLeft="true"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/tvReviewTitle"
+                android:text="@string/review_title"
+                android:layout_marginLeft="100dp"
+                android:maxLines="2"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvReviewName"
+                android:layout_below="@+id/tvReviewTitle"
+                android:layout_marginRight="30dp"
+                android:layout_alignParentRight="true"
+                android:text="@string/book_title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/header"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvAdvise"
+                android:text="@string/advise"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RatingBar
+                android:id="@+id/reviewRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/tvAdvise"
+                android:numStars="5"
+                style="?android:attr/ratingBarStyleSmall"
+                android:visibility="visible"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <TextView
+
+        android:id="@+id/tvReviewInfo"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="45dp"
+        android:paddingRight="25dp"
+        android:text="@string/review_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</LinearLayout>
