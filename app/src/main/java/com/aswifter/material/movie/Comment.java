@@ -8,6 +8,8 @@ import java.util.LinkedList;
  */
 public class Comment implements Serializable{
 
+
+    //此类用于
     private int num;
     private LinkedList<CommentInfo> commentInfoList;
 
