@@ -2,7 +2,7 @@
 
     目录
 ------1.0.1  2015-11-20 <BR
-    修改MovieReviewFragment,MovieCommentFragment，MovieSummaryFragment让相应Fragment能在重新创建时初始化界面.
+    修改MovieReviewFragment,MovieCommentFragment，MovieSummaryFragment让相应Fragment能在重新创建时初始化界面.<br>
 屏幕截图(1)
 ![image](https://github.com/hanilala/simi/blob/master/screenshots/Screenshot_2015-11-15-11-02-59.png?raw=true)
 屏幕截图(2)
