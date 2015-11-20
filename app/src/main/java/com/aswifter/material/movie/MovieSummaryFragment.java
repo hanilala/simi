@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,7 @@ public class MovieSummaryFragment  extends Fragment{
 
     private IntentFilter mIntentFilter;
     private MovieInfoReceiver mMovieInfoReceiver;
-    private String movieUrl;
+    private static String movieUrl;
 
     public static MovieSummaryFragment newInstance(String url)
     {
@@ -44,9 +46,34 @@ public class MovieSummaryFragment  extends Fragment{
         super.onCreate(savedInstanceState);
         mIntentFilter=new IntentFilter(MovieApp.ACTION_LoadMovieInfoComplete);
         mMovieInfoReceiver=new MovieInfoReceiver();
-        getActivity().registerReceiver(mMovieInfoReceiver,mIntentFilter);
+        getActivity().registerReceiver(mMovieInfoReceiver, mIntentFilter);
         movieUrl=getArguments().getString("URL");
         Movie.getASpecieMoveInfo(movieUrl);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.w("haha", "onSaveInstanceState is involk");
+        outState.putSerializable("movieInfo", mMovieInfo);
+        super.onSaveInstanceState(outState);
+
+
+
+    }
+
+    @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.w("haha", "onActivityCreated is involk");
+        Movie.getASpecieMoveInfo(movieUrl);
+
+
 
     }
 
