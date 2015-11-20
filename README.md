@@ -1,7 +1,6 @@
 Simi
 =====
 
-***
 
 按照Material Design设计的APP<br>
 
