@@ -33,6 +33,7 @@ public class MovieCommentFragment extends Fragment {
     private MovieCommentReceiver mMovieCommentReceiver;
     private IntentFilter mIntentFilter;
     private ProgressBar mProgressBar;
+    private static String url;
 
     public static MovieCommentFragment newInstance(String movieAlt)
     {
@@ -51,7 +52,7 @@ public class MovieCommentFragment extends Fragment {
         mIntentFilter=new IntentFilter(MovieApp.ACTION_LoadCommentInfoComplete);
         getActivity().registerReceiver(mMovieCommentReceiver,mIntentFilter);
 
-        String url=getArguments().getString("URL");
+        url=getArguments().getString("URL");
         Movie.initCommentInfoList(url);
     }
 
@@ -59,6 +60,14 @@ public class MovieCommentFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(mMovieCommentReceiver);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //让Fragment能在重新创建时发出网络请求，初始化界面。
+        Movie.initCommentInfoList(url);
+
     }
 
     @Nullable
