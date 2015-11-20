@@ -37,7 +37,7 @@ public class MovieReviewFragment extends Fragment {
 
     private IntentFilter intentFilter;
     private MovieReviewReceiver movieReviewReceiver;
-
+    private static String url;
 
 
     @Override
@@ -46,7 +46,7 @@ public class MovieReviewFragment extends Fragment {
         intentFilter=new IntentFilter(MovieApp.ACTION_LoadReviewInfoComplete);
         movieReviewReceiver=new MovieReviewReceiver();
         getActivity().registerReceiver(movieReviewReceiver,intentFilter);
-        String url=getArguments().getString("URL");
+        url=getArguments().getString("URL");
         Movie.initReviewInfoList(url);
     }
 
@@ -57,6 +57,14 @@ public class MovieReviewFragment extends Fragment {
         MovieReviewFragment movieReviewFragment=new MovieReviewFragment();
         movieReviewFragment.setArguments(bundle);
         return movieReviewFragment;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //让MivieReviewFragment能在重新创建时发出网络请求，初始化界面。
+        Movie.initReviewInfoList(url);
+
     }
 
     @Override
