@@ -11,6 +11,8 @@ Simi
 *  **1.0.1**        2015-11-20  
     * 修改MovieReviewFragment,MovieCommentFragment，MovieSummaryFragment让相应Fragment能在重新创建时初始化界面<br><br>
     
+*  **1.0.2**        2015-11-21
+    * MovieSummaryFragment,MovieCommentFragment,MovieReviewFragment增加LruCache
  
 ####屏幕截图(1)<br><br>
 ![image](https://github.com/hanilala/simi/blob/master/screenshots/Screenshot_2015-11-15-11-02-59.png?raw=true)
