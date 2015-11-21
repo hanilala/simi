@@ -48,7 +48,7 @@ public class MovieSummaryFragment  extends Fragment{
         mMovieInfoReceiver=new MovieInfoReceiver();
         getActivity().registerReceiver(mMovieInfoReceiver, mIntentFilter);
         movieUrl=getArguments().getString("URL");
-        Movie.getASpecieMoveInfo(movieUrl);
+
 
     }
 
@@ -71,8 +71,16 @@ public class MovieSummaryFragment  extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.w("haha", "onActivityCreated is involk");
-        Movie.getASpecieMoveInfo(movieUrl);
 
+        Object movieInfo=Movie.getStringFromCache(movieUrl,MovieApp.Movie_Summary);
+        mMovieInfo= (MovieInfo) movieInfo;
+        if(mMovieInfo!=null)
+        {
+            initFragment();
+
+        }
+        //如果mMovieInfo为null,Movie会发起网络请求，并将
+        //结果广播回来.
 
 
     }
@@ -89,6 +97,17 @@ public class MovieSummaryFragment  extends Fragment{
         View view=inflater.inflate(R.layout.fragment_movie_summary,container,false);
 
         findViewByIdIn(view);
+
+        Object movieInfo=Movie.getStringFromCache(movieUrl, MovieApp.Movie_Summary);
+
+        mMovieInfo= (MovieInfo) movieInfo;
+        if(mMovieInfo!=null)
+        {
+            initFragment();
+            //如果mMovieInfo为null,Movie会发起网络请求，并将
+            //结果广播回来.
+        }
+
         return view;
     }
 
