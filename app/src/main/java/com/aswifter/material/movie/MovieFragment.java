@@ -106,9 +106,24 @@ public class MovieFragment extends Fragment {
 
         mIntentFilter=new IntentFilter(MovieApp.ACTION_LoadComplete);
         mMovieReceiver=new MovieReceiver();
-        getActivity().registerReceiver(mMovieReceiver,mIntentFilter);
+        getActivity().registerReceiver(mMovieReceiver, mIntentFilter);
 
-        Movie.InitUs_Box();
+        Object AllFrmCache=Movie.getStringFromCache(MovieApp.Url_AllData,
+                MovieApp.Movie_AllData);
+
+        if(AllFrmCache!=null)
+        {
+            allData=(Us_Box)AllFrmCache;
+
+            MovieNum=allData.getSubjects().size();
+            Init_Adapter();
+            Log.w("haha", "getCache is Ok");
+
+        }
+        //如果AllFrmCach为null,Movie会发起网络请求，并将
+        //结果广播回来.
+
+
     }
 
     @Override
