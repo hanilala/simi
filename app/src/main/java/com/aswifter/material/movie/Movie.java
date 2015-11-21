@@ -2,6 +2,7 @@ package com.aswifter.material.movie;
 
 import android.content.Intent;
 import android.util.Log;
+import android.util.LruCache;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,7 +26,6 @@ import java.util.LinkedList;
  */
 public class Movie {
 
-    private static String Url = "http://api.douban.com/v2/movie/us_box";
 
     private static MovieInfo movieInfo=null;
 
@@ -38,13 +38,33 @@ public class Movie {
 
     private static Us_Box allData;
 
-
-    public static void InitUs_Box() {
-
+    private static LruCache<String,Object>mLruCache;
 
 
+    static {
+        int maxSize= (int) Runtime.getRuntime().maxMemory()/8;
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Url
+        mLruCache=new LruCache<String,Object>(maxSize)
+        {
+            @Override
+            protected int sizeOf(String key, Object value) {
+                return value.toString().getBytes().length;
+            }
+        };
+        /*mLruCache=new LruCache<String,String>(maxSize){
+            @Override
+            protected int sizeOf(String key, String value) {
+                return value.getBytes().length;
+            }
+        };*/
+    }
+
+    public static void InitUs_Box(final String url) {
+
+
+
+
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url
                 , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -55,6 +75,9 @@ public class Movie {
 
 
                 allData = gson.fromJson(response.toString(), Us_Box.class);
+
+//                addStringToCache(url, String.valueOf(allData));
+                addStringToCache(url, allData);
 
                 Intent intent = new Intent(MovieApp.ACTION_LoadComplete);
                 intent.putExtra("allData", allData);
@@ -76,11 +99,52 @@ public class Movie {
 
     }
 
-    public static void initCommentInfoList(String url)
+    public static void addStringToCache(String key,Object value)
+    {
+
+        mLruCache.put(key,value);
+    }
+
+    public static Object getStringFromCache(String key,int type)
+    {
+        if (key!=null)
+        {
+            Object value=mLruCache.get(key);
+            if(value!=null)
+            {
+                return value;
+            }
+            else
+            {
+                switch (type)
+                {
+                    case 1:
+                        InitUs_Box(key);
+                        break;
+                    case 2:
+                        getASpecieMoveInfo(key);
+                        break;
+                    case 3:
+                        initCommentInfoList(key);
+                        break;
+                    case 4:
+                        initReviewInfoList(key);
+                        break;
+                    default:
+                        break;
+                }
+
+                return null;
+            }
+        }
+        else return null;
+    }
+
+    public static void initCommentInfoList(final String url)
     {
         Log.w("movie","url is: "+url);
 
-        StringRequest stringRequest=new StringRequest(url + "comments", new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -92,6 +156,7 @@ public class Movie {
                     comment.setNum(commentInfoList.size());
                     comment.setCommentInfoList(commentInfoList);
 
+                    addStringToCache(url,comment);
 
                     i.putExtra("Comment", comment);
                     Log.w("movie", "commentList is" + commentInfoList);
@@ -110,10 +175,10 @@ public class Movie {
         mRequestQueue.add(stringRequest);
     }
 
-    public static void initReviewInfoList(String url)
+    public static void initReviewInfoList(final String url)
     {
         Log.w("review","url is:"+url);
-        StringRequest stringRequest=new StringRequest(url + "reviews", new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -123,6 +188,8 @@ public class Movie {
                     Review review=new Review();
                     review.setNum(reviewInfosList.size());
                     review.setReviewInfosList(reviewInfosList);
+
+                    addStringToCache(url,review);
                     Intent i=new Intent(MovieApp.ACTION_LoadReviewInfoComplete);
                     i.putExtra("Review",review);
 
@@ -266,7 +333,7 @@ public class Movie {
         }
     }
 
-    public static void getASpecieMoveInfo(String url)
+    public static void getASpecieMoveInfo(final String url)
     {
         StringRequest stringRequest=new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -276,6 +343,7 @@ public class Movie {
 
                 if(movieInfo!=null)
                 {
+                    mLruCache.put(url,movieInfo);
                     Intent i=new Intent(MovieApp.ACTION_LoadMovieInfoComplete);
 
                     i.putExtra("movieInfo",movieInfo);

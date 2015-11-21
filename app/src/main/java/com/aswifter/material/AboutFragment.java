@@ -86,7 +86,7 @@ public class AboutFragment extends Fragment {
     public void getUsData() {
 
 
-        Movie.InitUs_Box();
+        Movie.InitUs_Box(MovieApp.Url_AllData);
         Log.w("Movie", "allSubjects(in AboutFrag) is :" + allSubjects);
 
     }

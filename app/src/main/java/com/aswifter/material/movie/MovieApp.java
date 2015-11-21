@@ -11,9 +11,11 @@ public class MovieApp {
     public static String ACTION_LoadCommentInfoComplete ="com.lan.movie.LoadCommentInfoComplete";
     public static String ACTION_LoadReviewInfoComplete ="com.lan.movie.LoadReviewInfoComplete";
 
-
-    public static String Url_Comments="http://movie.douban.com/subject/11620560/comments";
-    public static String Url_Summary="http://movie.douban.com/subject/11620560/comments";
+    public static int Movie_AllData=1;
+    public static int Movie_Summary=2;
+    public static int Movie_Comment=3;
+    public static int Movie_Review=4;
+    public static String Url_AllData="http://api.douban.com/v2/movie/us_box";
 
 
 }

@@ -45,9 +45,8 @@ public class MovieReviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         intentFilter=new IntentFilter(MovieApp.ACTION_LoadReviewInfoComplete);
         movieReviewReceiver=new MovieReviewReceiver();
-        getActivity().registerReceiver(movieReviewReceiver,intentFilter);
+        getActivity().registerReceiver(movieReviewReceiver, intentFilter);
         url=getArguments().getString("URL");
-        Movie.initReviewInfoList(url);
     }
 
     public static MovieReviewFragment newInstance(String url)
@@ -63,7 +62,16 @@ public class MovieReviewFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //让MivieReviewFragment能在重新创建时发出网络请求，初始化界面。
-        Movie.initReviewInfoList(url);
+        Object reviewObject=Movie.getStringFromCache(url+"reviews",MovieApp.Movie_Review);
+        if(reviewObject!=null)
+        {
+            Review review= (Review) reviewObject;
+            mReviewInfosList= review.getReviewInfosList();
+            if(mReviewInfosList!=null)
+            {
+                initFragment();
+            }
+        }
 
     }
 
@@ -80,6 +88,20 @@ public class MovieReviewFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_movie_commment,container,false);
 
         setFindView(view);
+
+        Object reviewObject=Movie.getStringFromCache(url+"reviews",MovieApp.Movie_Review);
+
+        if(reviewObject!=null)
+        {
+            Review review= (Review) reviewObject;
+            mReviewInfosList= review.getReviewInfosList();
+            if(mReviewInfosList!=null)
+            {
+                initFragment();
+            }
+        }
+
+
         return view;
     }
 

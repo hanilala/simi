@@ -50,12 +50,11 @@ public class MovieCommentFragment extends Fragment {
 
         mMovieCommentReceiver=new MovieCommentReceiver();
         mIntentFilter=new IntentFilter(MovieApp.ACTION_LoadCommentInfoComplete);
-        getActivity().registerReceiver(mMovieCommentReceiver,mIntentFilter);
+        getActivity().registerReceiver(mMovieCommentReceiver, mIntentFilter);
 
         url=getArguments().getString("URL");
 
 
-        Movie.initCommentInfoList(url);
     }
 
     @Override
@@ -69,13 +68,17 @@ public class MovieCommentFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //让Fragment能在重新创建时发出网络请求，初始化界面。
 
-        Object CommentList=Movie.getStringFromCache(url,MovieApp.Movie_Comment);
-        mCommentInfoList= (LinkedList<CommentInfo>) CommentList;
-        if(mCommentInfoList!=null)
+        Object CommentObject=Movie.getStringFromCache(url+"comments",MovieApp.Movie_Comment);
+        if(CommentObject!=null)
         {
-            initFragment();
-        }
+            Comment comment= (Comment) CommentObject;
 
+            mCommentInfoList=comment.getCommentInfoList();
+            if(mCommentInfoList!=null)
+            {
+                initFragment();
+            }
+        }
 
     }
 
@@ -87,11 +90,16 @@ public class MovieCommentFragment extends Fragment {
 
         setFindView(view);
 
-        Object CommentList=Movie.getStringFromCache(url,MovieApp.Movie_Comment);
-        mCommentInfoList= (LinkedList<CommentInfo>) CommentList;
-        if(mCommentInfoList!=null)
+        Object CommentObject=Movie.getStringFromCache(url+"comments",MovieApp.Movie_Comment);
+        if(CommentObject!=null)
         {
-            initFragment();
+            Comment comment= (Comment) CommentObject;
+
+            mCommentInfoList=comment.getCommentInfoList();
+            if(mCommentInfoList!=null)
+            {
+                initFragment();
+            }
         }
         return view;
     }
